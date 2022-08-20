@@ -66,8 +66,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //editText.setText("You selected " + studentList.get(i));
-               // onBackPressed();
+                onBackPressed();
             }});
+
+    }
+    public void onBackPressed(long rowID) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Do you want to update or delete record?");
+        // alert.setMessage("Message");
+
+        alert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Your action here
+            }
+        });
+
+        alert.setNegativeButton("Delete",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        DBHelper dbHelper  = new DBHelper(MainActivity.this);
+                        if(dbHelper.deleteStudent(rowID)){
+                            Toast toast=Toast.makeText(getApplicationContext(),"Deleted Successfully!!!",Toast.LENGTH_LONG);
+                            View toastView = toast.getView();
+                            toastView.setBackgroundResource(R.color.purple_200);
+                            toast.show();
+                        }
+
+                    }
+                });
+
+        alert.show();
 
     }
 }
