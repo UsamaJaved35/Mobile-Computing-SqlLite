@@ -59,7 +59,7 @@ public class DBHelper extends SQLiteOpenHelper {
             return db.delete(STUDENT_TABLE, STUDENT_ROLL + "=" + rNo.toString(), null) > 0;
     }
     // below is the method for updating our courses
-    public boolean updateCourse(String newName,String newRollNo,String oldRollNo) {
+    public boolean updateCourse(String newName,String newRollNo, boolean isEnroll,String oldRollNo) {
         // calling a method to get writable database.
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // along with its key and value pair.
         values.put(STUDENT_NAME, newName);
         values.put(STUDENT_ROLL, newRollNo);
-       // values.put(STUDENT_ENROLL, courseDescription);
+        values.put(STUDENT_ENROLL, isEnroll);
 
         // on below line we are calling a update method to update our database and passing our values.
         // and we are comparing it with name of our course which is stored in original name variable.
@@ -87,7 +87,6 @@ public class DBHelper extends SQLiteOpenHelper {
         // moving our cursor to first position.
         if (cursorCourses.moveToFirst()) {
             do {
-
                 studentArrayList.add(new StudentModel(cursorCourses.getString(1),
                         cursorCourses.getInt(2),
                         cursorCourses.getInt(3) == 1 ? true : false));

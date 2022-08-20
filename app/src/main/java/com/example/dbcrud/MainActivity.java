@@ -69,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] replace = ((TextView) view).getText().toString().split(",");
-               onBackPressed(replace[1].substring(11));
+               onBackPressed(replace[0].substring(19),replace[1].substring(11)
+                       ,replace[2].substring(10));
+               // Toast.makeText(getBaseContext(),replace[2].substring(10), Toast.LENGTH_LONG).show();
             }});
 
     }
-    public void onBackPressed(String rNo) {
+    public void onBackPressed(String Name,String rNo, String status) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         DBHelper dbHelper = new DBHelper(MainActivity.this);
         alert.setTitle("Do you want to update or delete record?");
@@ -85,26 +87,27 @@ public class MainActivity extends AppCompatActivity {
         // Set up the input
         final EditText inputName = new EditText(this);
         final EditText inputRollNo = new EditText(this);
-
-        // alert.setMessage("Message");
-
+        final Switch isEnroll=new Switch(this);
         alert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 inputName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
                 inputName.setHint("Enter Name to be Updated:");
+                //inputName.setText();
                 inputRollNo.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_NUMBER);
                 inputRollNo.setHint("Enter Roll Number to be Updated:");
+                isEnroll.setText("Active Student Status");
                 lila1.addView(inputName);
                 lila1.addView(inputRollNo);
+                lila1.addView(isEnroll);
                 builder.setView(lila1);
 // Set up the buttons
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                        if(dbHelper.updateCourse(inputName.getText().toString(),
-                              inputRollNo.getText().toString(),rNo)){
+                              inputRollNo.getText().toString(),isEnroll.isChecked(),rNo)){
                             Toast.makeText(getBaseContext(), "Updated Successfully!!!", Toast.LENGTH_LONG).show();
                         }
                         else {
@@ -118,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                         dialog.cancel();
                     }
                 });
-
                 builder.show();
 
             }
