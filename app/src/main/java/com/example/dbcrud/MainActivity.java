@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 String[] replace = ((TextView) view).getText().toString().split(",");
                onBackPressed(replace[0].substring(19),replace[1].substring(11)
                        ,replace[2].substring(10));
-               // Toast.makeText(getBaseContext(),replace[2].substring(10), Toast.LENGTH_LONG).show();
             }});
 
     }
@@ -94,10 +93,13 @@ public class MainActivity extends AppCompatActivity {
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 inputName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
                 inputName.setHint("Enter Name to be Updated:");
-                //inputName.setText();
+                inputName.setText(Name.substring(0,Name.length()-1));
                 inputRollNo.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_NUMBER);
                 inputRollNo.setHint("Enter Roll Number to be Updated:");
+                inputRollNo.setText(rNo);
                 isEnroll.setText("Active Student Status");
+                boolean result=(status.substring(0,status.length()-1))=="false"? false:true;
+                isEnroll.setChecked(result);
                 lila1.addView(inputName);
                 lila1.addView(inputRollNo);
                 lila1.addView(isEnroll);
