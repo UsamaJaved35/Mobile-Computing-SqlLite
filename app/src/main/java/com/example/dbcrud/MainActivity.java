@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -67,8 +69,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] replace = ((TextView) view).getText().toString().split(",");
-               //Toast.makeText(getApplicationContext(),replace[1].substring(11),
-                 //       Toast.LENGTH_SHORT).show();
                onBackPressed(replace[1].substring(11));
             }});
 
@@ -76,11 +76,45 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(String rNo) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Do you want to update or delete record?");
+        //Your action here
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter Information to update :");
+        LinearLayout lila1= new LinearLayout(this);
+        lila1.setOrientation(LinearLayout.VERTICAL);
+        // Set up the input
+        final EditText inputName = new EditText(this);
+        final EditText inputRollNo = new EditText(this);
+
         // alert.setMessage("Message");
 
         alert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //Your action here
+
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                inputName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+                inputName.setHint("Enter Name to be Updated:");
+                inputRollNo.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_NUMBER);
+                inputRollNo.setHint("Enter Roll Number to be Updated:");
+                lila1.addView(inputName);
+                lila1.addView(inputRollNo);
+                builder.setView(lila1);
+// Set up the buttons
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String m_Text = "";
+                        m_Text = inputName.getText().toString();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+
             }
         });
         alert.setNegativeButton("Delete",
