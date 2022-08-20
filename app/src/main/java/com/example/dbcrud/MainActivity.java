@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -65,12 +66,14 @@ public class MainActivity extends AppCompatActivity {
         listViewStudent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //editText.setText("You selected " + studentList.get(i));
-                onBackPressed();
+                String[] replace = ((TextView) view).getText().toString().split(",");
+               //Toast.makeText(getApplicationContext(),replace[1].substring(11),
+                 //       Toast.LENGTH_SHORT).show();
+               onBackPressed(replace[1].substring(11));
             }});
 
     }
-    public void onBackPressed(long rowID) {
+    public void onBackPressed(String rNo) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Do you want to update or delete record?");
         // alert.setMessage("Message");
@@ -80,22 +83,19 @@ public class MainActivity extends AppCompatActivity {
                 //Your action here
             }
         });
-
         alert.setNegativeButton("Delete",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        DBHelper dbHelper  = new DBHelper(MainActivity.this);
-                        if(dbHelper.deleteStudent(rowID)){
-                            Toast toast=Toast.makeText(getApplicationContext(),"Deleted Successfully!!!",Toast.LENGTH_LONG);
-                            View toastView = toast.getView();
-                            toastView.setBackgroundResource(R.color.purple_200);
-                            toast.show();
+                        DBHelper dbHelper = new DBHelper(MainActivity.this);
+                        if (dbHelper.deleteStudent(rNo)) {
+                            Toast.makeText(getBaseContext(), "Deleted Successfully!!!", Toast.LENGTH_LONG).show();
                         }
-
+                        else
+                        {
+                            Toast.makeText(getBaseContext(), "Some Problem Occured!", Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
-
         alert.show();
-
     }
 }
