@@ -53,6 +53,11 @@ public class DBHelper extends SQLiteOpenHelper {
         //if (insert == -1) { return false; }
         //else{return true;}
     }
+    public boolean deleteStudent(long rowId)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+            return db.delete(STUDENT_TABLE, STUDENT_ROLL + "=" + rowId, null) > 0;
+    }
 
     public ArrayList<StudentModel> getAllStudents() {
 
