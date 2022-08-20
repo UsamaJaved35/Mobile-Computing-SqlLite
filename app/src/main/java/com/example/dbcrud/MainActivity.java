@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void onBackPressed(String rNo) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        DBHelper dbHelper = new DBHelper(MainActivity.this);
         alert.setTitle("Do you want to update or delete record?");
         //Your action here
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -102,8 +103,13 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String m_Text = "";
-                        m_Text = inputName.getText().toString();
+                       if(dbHelper.updateCourse(inputName.getText().toString(),
+                              inputRollNo.getText().toString(),rNo)){
+                            Toast.makeText(getBaseContext(), "Updated Successfully!!!", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                           Toast.makeText(getBaseContext(), "Some Problem Occured!", Toast.LENGTH_LONG).show();
+                       }
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -120,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         alert.setNegativeButton("Delete",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        DBHelper dbHelper = new DBHelper(MainActivity.this);
                         if (dbHelper.deleteStudent(rNo)) {
                             Toast.makeText(getBaseContext(), "Deleted Successfully!!!", Toast.LENGTH_LONG).show();
                         }
